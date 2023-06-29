@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        weather:{{info}}
+        <br>
+        <button @click="changeWeather">Change</button>
+    </div>
+    <div id="root2">
+        weather:{{weather}}
+        <br>
+        <button @click="changeWeather">Change</button>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+            isHot:true  
+        },
+        computed:{
+            info:function(){
+                return this.isHot?"hot":"cold";
+            }
+        },
+        methods:{
+            changeWeather:function(){
+                this.isHot=!this.isHot;
+            }
+        },
+        watch:{
+           info:{
+            immediate:true,
+            handler:function(newValue,oldValue){
+                console.log(oldValue+" to "+newValue);
+            }
+           }
+        }
+    })
+
+
+    //使用监视属性事现计算属性的功能
+    new Vue({
+        el:'#root2',
+        data:{
+            isHot:true,
+            weather:"hot"
+        },
+        watch:{
+            isHot:function(newValue,oldValue){
+                if(newValue){
+                    this.weather='hot';
+                }else{
+                    this.weather='cold';
+                }
+            }
+        },
+        methods:{
+            changeWeather:function(){
+                this.isHot=!this.isHot;
+            }
+        },
+    })
+
+</script>
+</html>

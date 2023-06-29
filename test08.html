@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./js/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="root">
+        firstName:<input type="text" v-model:value="firstName">
+        <br>
+        lastName: <input type="text" v-model="lastName">
+        <br>
+        fullName: <input type="text" v-model="fullName">
+        <br>
+        {{fullName}}
+
+    </div>
+
+</body>
+<script>
+
+    new Vue({
+        el: '#root',
+        data:{
+            firstName:'z',
+            lastName:'s',
+        },
+        computed:{
+            // fullName:{
+            //     get(){
+            //         return this.firstName+"-"+this.lastName;
+            //     },
+            //     set(value){
+            //         let arr=value.split("-");
+            //         this.firstName=arr[0];
+            //         this.lastName=arr[1];
+            //     }
+            // }
+
+            //简写
+            fullName(){
+                return this.firstName+"-"+this.lastName;
+            }
+        }
+    })
+</script>
+
+
+</html>

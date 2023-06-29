@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h1>人员列表</h1>
+        <input type="button" value="addPerson" @click="addPerson">
+        <ul>
+            <li v-for="p in persons" :key="p.id">
+                {{p.name}}-{{p.age}}
+                <input type="text">
+            </li>
+        </ul>
+
+        <h1>汽车信息</h1>
+        <ul>
+            <li v-for="(value,index) in car" :key="index">{{value}}-{{index}}</li>
+        </ul>
+
+        <h1>字符串信息</h1>
+        <ul>
+            <li v-for="(value,index) in str" :key="index">{{value}}-{{index}}</li>
+        </ul>
+
+        <h1>指定次数</h1>
+        <ul>
+            <li v-for="(value,index) in 5" :key="index">{{value}}-{{index}}</li>
+        </ul>
+
+        <h1>list Filter</h1>
+        <input type="text" v-model="keyWord">
+        <button @click="sortType=1">升序</button>
+        <button @click="sortType=2">降序</button>
+        <button @click="sortType=0">原顺序</button>
+        <ul>
+            <li v-for="s in filterList" :key="s.id">{{s.name}}-{{s.age}}-{{s.sex}}</li>
+        </ul>
+
+        <h1>数据监视</h1>
+        <h1>学生信息</h1>
+        <button @click="student.age++">年龄+1岁</button> <br />
+        <button @click="addSex">添加性别属性，默认值：男</button> <br />
+        <button @click="student.sex = '未知' ">修改性别</button> <br />
+        <button @click="addFriend">在列表首位添加一个朋友</button> <br />
+        <button @click="updateFirstFriendName">修改第一个朋友的名字为：张三</button> <br />
+        <button @click="addHobby">添加一个爱好</button> <br />
+        <button @click="updateHobby">修改第一个爱好为：开车</button> <br />
+        <button @click="removeSmoke">过滤掉爱好中的抽烟</button> <br />
+        <h3>姓名：{{student.name}}</h3>
+        <h3>年龄：{{student.age}}</h3>
+        <h3 v-if="student.sex">性别：{{student.sex}}</h3>
+        <h3>爱好：</h3>
+        <ul>
+            <li v-for="(h,index) in student.hobby" :key="index">
+                {{h}}
+            </li>
+        </ul>
+        <h3>朋友们：</h3>
+        <ul>
+            <li v-for="(f,index) in student.friends" :key="index">
+                {{f.name}}--{{f.age}}
+            </li>
+        </ul>
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            persons: [
+                { id: '001', name: '张三', age: 18 },
+                { id: '002', name: '李四', age: 19 },
+                { id: '003', name: '王五', age: 20 }
+            ],
+            car: {
+                name: '奥迪A8',
+                price: '70万',
+                color: '黑色'
+            },
+            str: 'hello',
+            stars: [
+                { id: '001', name: '马冬梅', age: 30, sex: '女' },
+                { id: '002', name: '周冬雨', age: 20, sex: '女' },
+                { id: '003', name: '周杰伦', age: 19, sex: '男' },
+                { id: '004', name: '温兆伦', age: 22, sex: '男' }
+            ],
+            keyWord: '',
+            sortType: 0,
+            student: {
+                name: 'tom',
+                age: 18,
+                hobby: ['抽烟', '喝酒', '烫头'],
+                friends: [
+                    { name: 'jerry', age: 35 },
+                    { name: 'tony', age: 36 }
+                ]
+            }
+        },
+        methods: {
+            addPerson() {
+                this.persons.unshift({ id: '004', name: 'jack', age: 30 });
+            },
+            addSex(){
+                this.$set(this.student,'sex','男');
+            },
+            addFriend(){
+                this.student.friends.unshift({name: 'mike', age: 50});
+            },
+            updateFirstFriendName(){
+                this.student.friends[0].name='zs'
+            },
+            addHobby(){
+                this.student.hobby.push('study');
+            },
+            updateHobby(){
+                this.student.hobby.splice(0,1,'driving');
+            },
+            removeSmoke(){
+                this.student.hobby=this.student.hobby.filter((h)=>{
+                    return h!='抽烟';
+                })
+            }
+        },
+        computed: {
+            filterList() {
+                let arr = this.stars.filter((s) => {
+                    return s.name.indexOf(this.keyWord) > -1;
+                });
+                if (this.sortType > 0) {
+                    if (this.sortType == 1) {
+                        return arr.sort((p1, p2) => {
+                            return p1.age - p2.age;
+                        })
+                    } else {
+                        return arr.sort((p1, p2) => {
+                            return p2.age - p1.age;
+                        })
+                    }
+                } else {
+                    return arr;
+                }
+            }
+        }
+    })
+</script>
+
+</html>

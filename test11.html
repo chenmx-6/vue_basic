@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        count:{{num}}
+        <br>
+        <button @click='addNum'>ADD</button>
+        <br>
+        <h2 v-show='num==1'>hello</h2>
+        <h2 v-if='num==2'>world</h2>
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#root',
+        data: {
+            num: 0
+        },
+        methods: {
+            addNum: function () {
+                this.num++;
+            }
+        }
+    })
+</script>
+
+</html>
